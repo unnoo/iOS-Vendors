@@ -11,6 +11,9 @@
 
 typedef void (^sendResultBlock)(NSDictionary *result);
 
+// 发送消息回调是否发送成功
+typedef void(^QQApiInterfaceSendMessageResultBlock)(QQApiSendResultCode sendResultCode, NSString *message);
+
 /**
  \brief 处理来至QQ的请求及响应的回调协议
  */
@@ -52,7 +55,7 @@ typedef void (^sendResultBlock)(NSDictionary *result);
  \param delegate 第三方应用用于处理来至QQ请求及响应的委托对象
  \return 跳转请求处理结果，YES表示成功处理，NO表示不支持的请求协议或处理失败
  */
-+ (BOOL)handleOpenUniversallink:(NSURL *)universallink delegate:(id<QQApiInterfaceDelegate>)delegate;
++ (BOOL)handleOpenUniversallink:(NSURL*)universallink delegate:(id<QQApiInterfaceDelegate>)delegate;
 
 /**
  向手Q发起分享请求
@@ -60,6 +63,7 @@ typedef void (^sendResultBlock)(NSDictionary *result);
  \return 请求发送结果码
  */
 + (QQApiSendResultCode)sendReq:(QQBaseReq *)req;
+
 
 /**
  向手Q QZone结合版发起分享请求
@@ -74,14 +78,64 @@ typedef void (^sendResultBlock)(NSDictionary *result);
  \param req 分享内容的请求
  \return 请求发送结果码
  */
-+ (QQApiSendResultCode)sendMessageToQQAvatarWithReq:(QQBaseReq *)req;
++ (QQApiSendResultCode)sendMessageToQQAvatarWithReq:(QQBaseReq*)req;
+
+
++ (QQApiSendResultCode)sendMessageToQQAuthWithReq:(QQBaseReq*)req;
+
+
+/**
+ 向手Q发起绑群请求
+ \param req 请求的内容
+ \param resultBlock 请求回调
+ */
++ (void)sendThirdAppBindGroupReq:(QQBaseReq *)req resultBlock:(sendResultBlock)resultBlock;
+
+/**
+ 向手Q发起加群请求
+ \param req 请求的内容
+ \param resultBlock 请求回调
+ */
++ (void)sendThirdAppJoinGroupReq:(QQBaseReq *)req resultBlock:(sendResultBlock)resultBlock;
+
+/**
+ 向手Q发起解绑群请求
+ \param req 请求的内容
+ \param resultBlock 请求回调
+ */
++ (void)sendThirdAppUnBindGroupReq:(QQBaseReq *)req resultBlock:(sendResultBlock)resultBlock;
+
+/**
+ 向手Q发起创建QQ频道的请求
+ \param req 请求的内容
+ \param resultBlock 回调发送结果
+ \return void
+ */
++ (void)sendMessageToCreateQQGroupProWithMessageRequest:(SendMessageToQQReq *)messageRequest sendResultBlock:(QQApiInterfaceSendMessageResultBlock)sendResultBlock;
+
+
+/**
+ 向手Q发起加入QQ频道的请求
+ \param req 请求的内容
+ \param resultBlock 回调发送结果
+ \return void
+ */
++ (void)sendMessageToJoinQQGroupProWithMessageRequest:(SendMessageToQQReq *)messageRequest sendResultBlock:(QQApiInterfaceSendMessageResultBlock)sendResultBlock;
+
+
+/**
+ 向手Q发起查询QQ频道openID的请求
+ \param req 请求的内容
+ \param resultBlock 请求回调
+ */
++ (void)sendQueryQQGroupProInfo:(QQBaseReq *)req resultBlock:(sendResultBlock)resultBlock;
 
 /**
  向手Q发起组图分享到表情收藏
  \param req 分享内容的请求
  \return 请求发送结果码
  */
-+ (QQApiSendResultCode)sendMessageToFaceCollectionWithReq:(QQBaseReq *)req;
++ (QQApiSendResultCode)sendMessageToFaceCollectionWithReq:(QQBaseReq*)req;
 
 /**
  检测是否已安装QQ
@@ -106,7 +160,7 @@ typedef void (^sendResultBlock)(NSDictionary *result);
 /**
  检测QQ是否支持API调用
  \return 如果当前安装QQ版本支持API调用则返回YES，否则返回NO
- */
+ */  
 + (BOOL)isQQSupportApi;
 
 /**
@@ -128,18 +182,6 @@ typedef void (^sendResultBlock)(NSDictionary *result);
 + (BOOL)isSupportPushToQZone;
 
 /**
- 启动QQ
- \return 成功返回YES，否则返回NO
- */
-+ (BOOL)openQQ;
-
-/**
- 启动TIM
- \return 成功返回YES，否则返回NO
- */
-+ (BOOL)openTIM;
-
-/**
  获取QQ下载地址
  
  如果App通过<code>QQApiInterface#isQQInstalled</code>和<code>QQApiInterface#isQQSupportApi</code>检测发现QQ没安装或当前版本QQ不支持API调用，可引导用户通过打开此链接下载最新版QQ。
@@ -156,6 +198,7 @@ typedef void (^sendResultBlock)(NSDictionary *result);
 + (NSString *)getTIMInstallUrl;
 
 #pragma mark - Log
+
 /*! @brief 调用此函数可以导出QQSDK的Log到第三方中，用于定位问题
  
     注意1:SDK会强引用这个block,注意不要导致内存泄漏,注意不要导致内存泄漏
@@ -164,10 +207,14 @@ typedef void (^sendResultBlock)(NSDictionary *result);
  *  @param logBlock 打印log的回调block
  */
 + (void)startLogWithBlock:(QQApiLogBolock)logBlock;
+
 ///停止回调打印
 + (void)stopLog;
+
 ///设置打印日志到文件开关on/off，如果不设置，默认不打印到文件
 + (void)setSwitchPrintLogToFile:(BOOL)on;
+
 ///日志文件目录
 + (NSString *)getLogFilePath;
+
 @end

@@ -59,43 +59,45 @@
 
 @end
 
+
 /**
  微博封装Http请求的消息结构
  
  */
-@interface WBHttpRequest : NSObject {
-    NSURLConnection *connection;
-    NSMutableData *responseData;
+@interface WBHttpRequest : NSObject
+{
+    NSURLSessionDataTask            *sessionDataTask;
+    NSMutableData                   *responseData;
 }
 
 /**
  用户自定义请求地址URL
  */
-@property(nonatomic, copy) NSString *url;
+@property (nonatomic, strong) NSString *url;
 
 /**
  用户自定义请求方式
  
  支持"GET" "POST"
  */
-@property(nonatomic, copy) NSString *httpMethod;
+@property (nonatomic, strong) NSString *httpMethod;
 
 /**
  用户自定义请求参数字典
  */
-@property(nonatomic) NSDictionary *params;
+@property (nonatomic, strong) NSDictionary *params;
 
 /**
  WBHttpRequestDelegate对象，用于接收微博SDK对于发起的接口请求的请求的响应
  */
-@property(nonatomic, weak) id<WBHttpRequestDelegate> delegate;
+@property (nonatomic, weak) id<WBHttpRequestDelegate> delegate;
 
 /**
  用户自定义TAG
  
  用于区分回调Request
  */
-@property(nonatomic, copy) NSString *tag;
+@property (nonatomic, strong) NSString* tag;
 
 /**
  统一HTTP请求接口
@@ -129,6 +131,7 @@
                                  delegate:(id<WBHttpRequestDelegate>)delegate
                                   withTag:(NSString *)tag;
 
+
 /**
  取消网络请求接口
  调用此接口后，将取消当前网络请求，建议同时[WBHttpRequest setDelegate:nil];
@@ -154,8 +157,9 @@ typedef void (^WBRequestHandler)(WBHttpRequest *httpRequest,
 + (WBHttpRequest *)requestWithURL:(NSString *)url
                        httpMethod:(NSString *)httpMethod
                            params:(NSDictionary *)params
-                            queue:(NSOperationQueue *)queue
+                            queue:(NSOperationQueue*)queue
             withCompletionHandler:(WBRequestHandler)handler;
+
 
 /**
  统一HTTP请求接口
@@ -170,7 +174,20 @@ typedef void (^WBRequestHandler)(WBHttpRequest *httpRequest,
                                       url:(NSString *)url
                                httpMethod:(NSString *)httpMethod
                                    params:(NSDictionary *)params
-                                    queue:(NSOperationQueue *)queue
+                                    queue:(NSOperationQueue*)queue
                     withCompletionHandler:(WBRequestHandler)handler;
+
+/**
+一般请求接口，主线程执行
+调用此接口后，将发送一个HTTP网络请求
+@param url 请求url地址
+@param httpMethod  支持"GET" "POST"
+@param params 向接口传递的参数结构
+@param handler 接口请求返回调用的block方法
+*/
++ (WBHttpRequest *)requestWithURL:(NSString *)url
+                       httpMethod:(NSString *)httpMethod
+                           params:(NSDictionary *)params
+            withCompletionHandler:(WBRequestHandler)handler;
 
 @end
