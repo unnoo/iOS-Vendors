@@ -1,0 +1,4 @@
+framework module opencore_amrnb {
+    umbrella header "opencore-amrnb.h"
+    export *
+}

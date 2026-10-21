@@ -1,0 +1,4 @@
+framework module opencore_amrwb {
+    umbrella header "opencore-amrwb.h"
+    export *
+}

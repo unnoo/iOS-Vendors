@@ -6,13 +6,11 @@
 	<array>
 		<dict>
 			<key>BinaryPath</key>
-			<string>libopencore-amrnb-macos.a</string>
-			<key>HeadersPath</key>
-			<string>Headers</string>
+			<string>opencore_amrnb.framework/opencore_amrnb</string>
 			<key>LibraryIdentifier</key>
 			<string>macos-arm64_x86_64</string>
 			<key>LibraryPath</key>
-			<string>libopencore-amrnb-macos.a</string>
+			<string>opencore_amrnb.framework</string>
 			<key>SupportedArchitectures</key>
 			<array>
 				<string>arm64</string>
@@ -23,13 +21,11 @@
 		</dict>
 		<dict>
 			<key>BinaryPath</key>
-			<string>libopencore-amrnb-iphoneos.a</string>
-			<key>HeadersPath</key>
-			<string>Headers</string>
+			<string>opencore_amrnb.framework/opencore_amrnb</string>
 			<key>LibraryIdentifier</key>
 			<string>ios-arm64</string>
 			<key>LibraryPath</key>
-			<string>libopencore-amrnb-iphoneos.a</string>
+			<string>opencore_amrnb.framework</string>
 			<key>SupportedArchitectures</key>
 			<array>
 				<string>arm64</string>
@@ -39,13 +35,11 @@
 		</dict>
 		<dict>
 			<key>BinaryPath</key>
-			<string>libopencore-amrnb-iphonesimulator.a</string>
-			<key>HeadersPath</key>
-			<string>Headers</string>
+			<string>opencore_amrnb.framework/opencore_amrnb</string>
 			<key>LibraryIdentifier</key>
 			<string>ios-arm64_x86_64-simulator</string>
 			<key>LibraryPath</key>
-			<string>libopencore-amrnb-iphonesimulator.a</string>
+			<string>opencore_amrnb.framework</string>
 			<key>SupportedArchitectures</key>
 			<array>
 				<string>arm64</string>
